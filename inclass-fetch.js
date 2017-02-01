@@ -59,7 +59,8 @@ function getArticlesObject(url)
 			  response.status);
 		}
     else if (response.status == 404){
-      return new Error('error')
+      console.log(response.status)
+      return reject(new Error("error"))
     }
 
 		  return response.json().then(function(data) {
@@ -72,15 +73,17 @@ function getArticlesObject(url)
 				  var articleText = articlesArray[i].text;
 				  articleMap[articleId] = countWords(articleText);
 			  }
+        console.log(data)
+        console.log(Object.keys(data).length)
         if (Object.keys(data).length == 0){
-          return new Error('error')
+          return reject(new Error('error'))
         }
-			  return articleMap
+			  return resolve(articleMap);
 		  });
 		}
   )
   .catch(function(err) {
-   return err;
+   return reject(err);
   });
 }
 
